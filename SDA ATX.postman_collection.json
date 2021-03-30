@@ -1,0 +1,643 @@
+{
+	"info": {
+		"_postman_id": "9fa6298e-5780-4fbd-a939-d10a19e367ed",
+		"name": "SDA ATX",
+		"description": "dnac sandbox testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "demo 2: 变量方式",
+			"item": [
+				{
+					"name": "Authentication API",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"//postman.setEnvironmentVariable(\"token\", data.Token);",
+									"pm.environment.set(\"token\", data.Token);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(string, required) Request body content type",
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/system/api/v1/auth/token",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"system",
+								"api",
+								"v1",
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1: site count",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(string, required) Authorization token",
+								"key": "X-Auth-Token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/site/count",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"site",
+								"count"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Global",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2: sites list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"pm.environment.set(\"globalsiteid\", data.response[0].id);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(string, required) Authorization token",
+								"key": "X-Auth-Token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/site",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"site"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3: device count",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{token}}",
+								"description": "(string, required) Authorization token"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/network-device/count",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"network-device",
+								"count"
+							]
+						},
+						"description": "Returns the count of network devices based on the filter criteria by management IP address, mac address, hostname and location name\n\n###### Response Model\n- CountResult\n  - response: integer\n  - version: string\n"
+					},
+					"response": []
+				},
+				{
+					"name": "4: devices list",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(string, required) Authorization token",
+								"key": "X-Auth-Token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/network-device",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"network-device"
+							]
+						},
+						"description": "Returns the count of network devices based on the fitler critieria by management IP address, mac address, hostname and location name. If id param is provided, it will be returning the list of network-devices for the given id's and other request params will be ignored. In case of autocomplete request, returns the list of specified attributes.\n\n###### Response Model\n- NetworkDeviceListResult\n  - response: array\n    - apManagerInterfaceIp: string\n    - associatedWlcIp: string\n    - bootDateTime: string\n    - collectionInterval: string\n    - collectionStatus: string\n    - errorCode: string\n    - errorDescription: string\n    - family: string\n    - hostname: string\n    - id: string\n    - instanceTenantId: string\n    - instanceUuid: string\n    - interfaceCount: string\n    - inventoryStatusDetail: string\n    - lastUpdateTime: string\n    - lastUpdated: string\n    - lineCardCount: string\n    - lineCardId: string\n    - location: string\n    - locationName: string\n    - macAddress: string\n    - managementIpAddress: string\n    - memorySize: string\n    - platformId: string\n    - reachabilityFailureReason: string\n    - reachabilityStatus: string\n    - role: string\n    - roleSource: string\n    - serialNumber: string\n    - series: string\n    - snmpContact: string\n    - snmpLocation: string\n    - softwareType: string\n    - softwareVersion: string\n    - tagCount: string\n    - tunnelUdpPort: string\n    - type: string\n    - upTime: string\n    - waasDeviceMode: string\n  - version: string\n"
+					},
+					"response": []
+				},
+				{
+					"name": "5: show running",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Auth-Token",
+								"value": "{{token}}",
+								"description": "(string, required) Authorization token"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/network-device/config",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"network-device",
+								"config"
+							]
+						},
+						"description": "BIG: return runningConfig string"
+					},
+					"response": []
+				},
+				{
+					"name": "6: SDA Edge node",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(string, required) Authorization token",
+								"key": "X-Auth-Token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/business/sda/edge-device?deviceIPAddress={{edge}}",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"business",
+								"sda",
+								"edge-device"
+							],
+							"query": [
+								{
+									"key": "deviceIPAddress",
+									"value": "{{edge}}",
+									"description": "(string, required) Epoch time(in milliseconds) when the Network health data is required"
+								}
+							]
+						},
+						"description": "lan automation之后，能够拿到所有PnP上线的设备清单和cdp neighbor信息，还没有IP地址。"
+					},
+					"response": []
+				},
+				{
+					"name": "7: SDA user port",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(string, required) Authorization token",
+								"key": "X-Auth-Token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/business/sda/hostonboarding/user-device?device-ip={{edge}}&interfaceName={{interfaceName}}",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"business",
+								"sda",
+								"hostonboarding",
+								"user-device"
+							],
+							"query": [
+								{
+									"key": "device-ip",
+									"value": "{{edge}}"
+								},
+								{
+									"key": "interfaceName",
+									"value": "{{interfaceName}}"
+								}
+							]
+						},
+						"description": "信息量很少\n只能判断site是否是fabric site。\n一次只能一个site判断"
+					},
+					"response": []
+				},
+				{
+					"name": "8: SDA AP port",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"description": "(string, required) Authorization token",
+								"key": "X-Auth-Token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/business/sda/hostonboarding/access-point?device-ip={{edge}}&interfaceName={{interfaceName}}",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"business",
+								"sda",
+								"hostonboarding",
+								"access-point"
+							],
+							"query": [
+								{
+									"key": "device-ip",
+									"value": "{{edge}}"
+								},
+								{
+									"key": "interfaceName",
+									"value": "{{interfaceName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "9: 设置端口接入AP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"description": "(string, required) Authorization token",
+								"key": "X-Auth-Token",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"siteNameHierarchy\": \"Global/North_Carolina/RTP/Site_1\",\n        \"deviceManagementIpAddress\": {{edge}},\n        \"interfaceName\": {{no_config_int}},\n        \"dataIpAddressPoolName\": \"wired1\",\n        \"voiceIpAddressPoolName\": \"\",\n        \"authenticateTemplateName\": \"No Authentication\"\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/business/sda/hostonboarding/access-point",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"business",
+								"sda",
+								"hostonboarding",
+								"access-point"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10: delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"description": "(string, required) Authorization token",
+								"key": "X-Auth-Token",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "https://{{dnac}}:{{port}}/dna/intent/api/v1/business/sda/hostonboarding/user-device?device-ip={{edge}}&interfaceName={{no_config_int}}",
+							"protocol": "https",
+							"host": [
+								"{{dnac}}"
+							],
+							"port": "{{port}}",
+							"path": [
+								"dna",
+								"intent",
+								"api",
+								"v1",
+								"business",
+								"sda",
+								"hostonboarding",
+								"user-device"
+							],
+							"query": [
+								{
+									"key": "device-ip",
+									"value": "{{edge}}"
+								},
+								{
+									"key": "interfaceName",
+									"value": "{{no_config_int}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			},
+			{
+				"key": "saveHelperData",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "showPassword",
+				"value": false,
+				"type": "boolean"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// The data to be written to file",
+					"let dataToFile = {",
+					"    requestName: request.name || request.url,",
+					"    fileExtension: 'json',",
+					"    responseData: pm.response.text()",
+					"};",
+					"",
+					"pm.sendRequest({",
+					"    url: 'http://localhost:3000/write',",
+					"    method: 'POST',",
+					"    header: 'Content-Type:application/json',",
+					"    body: {",
+					"        mode: 'raw',",
+					"        raw: JSON.stringify(dataToFile)",
+					"    }",
+					"}, function(err, res) {",
+					"    console.log(res);",
+					"});"
+				]
+			}
+		}
+	]
+}
