@@ -7,4 +7,7 @@ Also the Postman collections and Environments included.
 
 
 ### How to use 如何使用
-git download to new folder and try.
+After git download to new folder
+
+- For postman, please import 2 JSON files.
+- For python, setup the virtual env. and try.
